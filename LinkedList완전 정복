@@ -1,0 +1,248 @@
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		MyList list = new MyList();
+		
+		System.out.println(list);
+		
+		list.addLast(10);
+		list.addLast(20);
+		list.addLast(30);
+		list.addLast(40);
+		
+		System.out.println(list);
+		
+		list.addFirst(100);
+		list.addFirst(200);
+		list.addFirst(300);
+		
+		list.remove(30);
+		
+		System.out.println(list);
+		
+		MyList list2 = new MyList();
+		list2.addLast(6);
+		list2.addLast(7);
+		list2.addLast(8);
+		list2.addLast(9);
+		
+		list.addAll(list2.head, list2.size, list2.head.prev);
+		System.out.println(list);
+		
+		list.addLast(77);
+				
+		System.out.println(list);
+		
+		list.removeFirst();
+		list.removeLast();
+		
+		System.out.println(list);
+		
+//		MyList list3 = new MyList();
+//		list.clone(list3.head);
+		
+		
+	}
+
+}
+
+class MyList {
+	
+	Node head;
+	int size;
+	
+	MyList() {
+		head = null;
+		size = 0;
+	}
+	
+	boolean isEmpty() {
+		if (head == null) 
+			return true;
+		return false;
+	}
+	
+	void addFirst(int x) {
+		addLast(x);
+		head = head.prev;
+	}
+	
+	void addLast(int x) {
+		size++;
+		Node p = new Node(x);
+		if (head == null) {
+			head = p;
+			return;
+		}
+		
+		head.insert(p);
+	}
+	
+	void addAll(Node chain, int chainSize, Node tail) {
+		size += chainSize;
+		
+		if (head == null) {
+			head = chain;
+			return;
+		}
+		
+		head.prev.next = chain;
+		chain.prev = head.prev;
+		
+		tail.next = head;
+		head.prev = tail;
+
+/*		for (int i = 0; i < chainSize; i++) {
+			chain = chain.next;
+		}
+		
+		chain.next = head;
+		head.prev = chain; */
+		
+	}
+	
+	void clear() {
+		head = null;
+		size = 0;
+	}
+	
+	int indexOf(int x) {
+		
+		return
+	}
+	
+	void clone(Node chain) {
+		
+	}
+	
+	void remove(int x) {
+		
+		Node tmp = head;
+		
+		for (int i = 0; i < size; i++) {
+			if (tmp.data == x) {
+				tmp.prev.next = tmp.next;
+				tmp.next.prev = tmp.prev;
+				size--;
+				return;
+			}				
+				
+			tmp = tmp.next;
+		}
+		
+	}
+	
+	void removeFirst() {
+		size--;
+		head = head.next;
+		head.prev = head.prev.prev;
+		
+/*		size--;
+		head.next.prev = head.prev;
+		head.prev.next = head.next; */
+		
+/*		int x = getFirst();
+		
+		remove(x);*/
+	}
+	
+	int getFirst() {
+		return head.data;
+	}
+	
+	void removeLast() {
+		size--;
+		head.prev = head.prev.prev;
+		head.prev.next = head; //head.prev정의해 줘서 head.prev.prev(x)
+		
+/*		size--;
+		head.prev.prev.next = head;
+		head.prev = head.prev.prev; */
+		
+/*		int x = getLast();
+		
+		remove(x); */
+	}
+	
+	int getLast() {
+		return head.prev.data;
+	}
+	
+	boolean contains(int x) {
+		
+		Node tmp = head;
+		
+		for (int i = 0; i < size; i++) {
+			if (tmp.data == x) 
+				return true;
+			
+			tmp = tmp.next;
+		}
+		
+		return false;
+	}
+	
+	public String toString() {
+		
+		String s = "[ ";
+		
+		Node tmp = head;
+				
+		for (int i = 0; i < size; i++) {
+			s = s + tmp.data + " ";
+			tmp = tmp.next;
+		}
+		
+		s += "]";
+		return s;
+	}
+	
+}
+
+class Node {
+	
+	Node prev;
+	int data;
+	Node next;
+	
+	Node() {
+		this(0);
+	}
+	
+	Node(int x) {
+		prev = next = this;
+		data = x;
+	}
+	
+	void print() {
+		Node tmp = this;
+		System.out.print(tmp.data + " ");
+		tmp = tmp.next;
+		while (tmp != this) {
+			System.out.print(tmp.data + " ");
+			tmp = tmp.next;
+		}
+	}
+	
+	void insert(Node pNode) {
+		pNode.next = this;
+		pNode.prev = prev;
+		prev.next = pNode;
+		prev = pNode;
+	}
+	
+	void append(Node pNode) {
+		pNode.prev = this;
+		pNode.next = next;
+		next.prev = pNode;
+		next = pNode;
+	}
+	
+	void remove() {
+		prev.next = next;
+		next.prev = prev;
+	}
+	
+}
