@@ -1,0 +1,90 @@
+
+public class Main {
+
+	public static void main(String[] args) {
+		
+		Stack a = new Stack();
+		Stack b = new Stack();
+		
+		a.push(10);
+		a.push(20);
+		a.pop();
+		a.push(30);
+		a.push(40);
+		
+		b.push(100);
+		b.push(200);
+		b.push(300);
+		b.push(400);
+		b.pop();
+		
+		System.out.println("top of stack a = " + a.peek());
+		System.out.println("top of stack b = " + b.peek());
+		
+	}
+
+}
+
+class Stack {
+	
+	static int MAX = 100;
+	
+	private int s[];
+	private int top;
+	private int size;
+	
+	private void initialize() {
+		for (int i = 0; i < size; i++) {
+			s[i] = 0;
+		}
+	}
+	
+	private void overflowError() {
+		System.err.println("Stack overflow error occurs");
+		System.exit(-1);
+	}
+	
+	private void emptyError() {
+		System.err.println("Stack empty error occurs");
+		System.exit(-1);
+	}
+	
+	public Stack() {
+		this(MAX);
+	}
+	
+	public Stack(int n) {
+		if (n > MAX) {
+			System.err.println("Stack size must be less than " + MAX + ".");
+			System.exit(-1);
+		}
+		s = new int[MAX];
+		size = n;
+		top = -1;
+		initialize();
+	}
+	
+	public void push(int item) {
+		if (top >= size-1) overflowError();
+		top++;
+		s[top] = item;
+	}
+	
+	public int pop() {
+		if (top == -1) emptyError();
+		int value = s[top];
+		top--;
+		return value;
+	}
+	
+	public int peek() {
+		if (top == -1) emptyError();
+		return(s[top]);
+	}
+	
+	public void reset() {
+		top = -1;
+		initialize();
+	}
+	
+}
