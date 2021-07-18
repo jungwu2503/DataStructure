@@ -1,0 +1,146 @@
+import java.util.*;
+
+class TreeNode<Type> {
+	Type data;
+	LinkedList<TreeNode<Type>> children;
+	
+	TreeNode(Type x) {
+		data = x;
+		children = new LinkedList<TreeNode<Type>>();
+	}
+	
+	boolean isLeaf() {
+		if (children.size() == 0)
+			return true;
+		return false;
+	}
+	
+	void add(TreeNode<Type> x) {
+		children.add(x);
+	}
+	
+	TreeNode<Type> getChildAt(int index) {
+		return children.get(index);
+	}
+	
+	TreeNode<Type> getChildAfter(TreeNode<Type> x) {
+		int index = getIndex(x);
+		return getChildAt(index+1);
+	}
+	
+	int getChildCount() {
+		return children.size();
+	}
+	
+	int getIndex(TreeNode<Type> x) {
+		return children.indexOf(x);
+	}
+	
+	public String toString() {
+		return data.toString();
+	}
+	
+	int getLeafCount() {
+		if (isLeaf()) {
+			return 1;
+		}
+		
+		int sum = 0;
+		
+		ListIterator<TreeNode<Type>> l =  (ListIterator<TreeNode<Type>>) children.listIterator();
+		
+		while(l.hasNext()) {
+			TreeNode<Type> node = l.next();
+			
+			sum += node.getLeafCount();
+		}
+		
+		return sum;
+	}
+	
+	public int getDepth() {
+		if (isLeaf()) {
+			return 1;
+		}
+		
+		int maxDepth = -1;
+		
+		ListIterator<TreeNode<Type>> l =  (ListIterator<TreeNode<Type>>) children.listIterator();
+		
+		while(l.hasNext()) {
+			TreeNode<Type> node = l.next();
+			
+			int depth = node.getDepth();
+			
+			if (depth > maxDepth) 
+				maxDepth = depth;
+		} 
+		/*
+		for (TreeNode<Type> node : children) {
+			
+		}*/
+		
+		return maxDepth + 1;
+	}
+	
+	TreeNode<Type> getFirstLeaf() {
+		if (isLeaf()) {
+			return this;
+		}
+		
+		TreeNode<Type> node = getChildAt(0);
+		return node.getFirstLeaf();
+		
+	}
+	
+	int getLevel(TreeNode<Type> toFind) {
+		if (this == toFind) {
+			return 1;
+		}
+		
+		for (TreeNode<Type> node : children) {
+			int level = node.getLevel(toFind);
+			if (level >= 0) {
+				return level + 1;
+			}
+		}
+		return -1;
+	}
+	
+}
+
+public class Main {
+
+	public static void main(String[] args) {
+
+		TreeNode<String> a = new TreeNode<String>("a");
+		TreeNode<String> b = new TreeNode<String>("b");
+		TreeNode<String> c = new TreeNode<String>("c");
+		TreeNode<String> d = new TreeNode<String>("d");
+		TreeNode<String> e = new TreeNode<String>("e");
+		TreeNode<String> f = new TreeNode<String>("f");
+		TreeNode<String> g = new TreeNode<String>("g");
+		
+		a.add(c);
+		a.add(d);
+		c.add(e);
+		e.add(f);
+		e.add(g);
+		a.add(b);
+		
+		System.out.println(a.getChildAt(1));
+		System.out.println(a.getIndex(d));
+		System.out.println(a.getChildAfter(c));
+		System.out.println(a.getDepth());
+		System.out.println(a.getFirstLeaf());
+		System.out.println(a.getLeafCount());
+		System.out.println(a.getLevel(g));
+		
+		if(a.isLeaf())
+			System.out.println("Yes");
+		else
+			System.out.println("No");
+		
+	}
+
+}
