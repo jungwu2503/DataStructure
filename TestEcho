@@ -1,0 +1,20 @@
+import java.io.*;
+
+public class Main {
+
+	public static void main(String[] args) {
+		System.out.println("Type characters and <Enter> key");
+		InputStreamReader in = new InputStreamReader(System.in);
+
+		while (true) {
+			try {
+				char ch = (char)in.read();
+				if (ch == '\n') break;
+				System.out.print(ch);
+			} catch (IOException ex) { }
+		}
+		System.out.println();
+		
+	}
+
+}
