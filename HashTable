@@ -1,0 +1,58 @@
+import java.util.*;
+//import java.util.Hashtable;
+
+class Student {
+	String name;
+	int number;
+	int kor;
+	int math;
+	int eng;
+	
+	Student(String n, int num) {
+		name = n;
+		number = num;
+	}
+	
+	public String toString() {
+		return name + ": " + number;
+	}
+	
+	public int hashCode() {
+		return name.hashCode();
+	}
+	
+}
+
+public class Main {
+
+	public static void main(String[] args) {
+		HashMap<String, Student> table = new HashMap<String, Student>();
+		
+		Student x = new Student("kim", 123456);
+		Student y = new Student("lee", 283745);
+		Student z = new Student("park", 928356);
+	
+		String s1 = "kim";
+		String s2 = "lee";
+		String s3 = "park";
+		table.put(s1, x);
+		table.put(s2, y);
+		table.put(s3, z);
+		
+		System.out.println(table.get("park"));
+		System.out.println(x.hashCode());
+		System.out.println(y.hashCode());
+		System.out.println(z.hashCode());
+		
+		//System.out.println(new Integer(123).hashCode());
+		Collection<Student> c = table.values();
+		Iterator<Student> li = c.iterator();
+		
+		while (li.hasNext()) {
+			Student s = li.next();
+			System.out.println(s);
+		}
+		
+	}
+
+}
